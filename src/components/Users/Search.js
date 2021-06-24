@@ -7,7 +7,9 @@ export class Search extends React.Component {
   }
 
   static propTypes = {
-    searchUsers: PropTypes.func.isRequired
+    searchUsers: PropTypes.func.isRequired,
+    clearUsers: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired
   }
 
   /**
@@ -30,12 +32,22 @@ export class Search extends React.Component {
   }
 
   render() {
+
+    const {showClear, clearUsers} = this.props; //destructuring
+
     return (
       <div>
         <form onSubmit = {this.onSubmit} className = "form">
           <input type = "text" name = "text" placeholder = "Search Users..." value = {this.state.text} onChange = {this.onChange}/>
           <input type = "submit" name = "Search" className = "btn btn-dark btn-block"/>
         </form>
+        {showClear && //NOTE this is "inline if with logical && Operator"
+            <button className = "btn btn-light btn-block" onClick = {clearUsers}>Clear</button>
+            /**
+             * It works because in JavaScript, true && expression always evaluates to expression, and false && expression  * always evaluates to false.
+             */
+        }
+        
       </div>
     )
   }
