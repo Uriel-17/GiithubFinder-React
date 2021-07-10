@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Navbar from './components/layout/Navbar';
 import Users from './components/Users/Users';
 import Search from './components/Users/Search';
+import Alert from './components/layout/Alert'; 
+import About from './components/pages/About'; 
 import './App.css';
 
 //title and icon are props
@@ -9,18 +12,11 @@ class App extends React.Component {
 
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   }
 
-  /**
-   * componentDidMount() method is the most suitable place to call the setState() 
-   * method which helps in changing the application’s state and also updates * are rendered
-   */
-  // async componentDidMount() {
-
-  //   this.setState({loading: true }); 
-  // }
-
+ 
   //Searchs Github for users 
   searchUsers = async (text) => {
 
@@ -47,6 +43,16 @@ class App extends React.Component {
 
   }
 
+  //Set alert
+
+  setAlert = (msg, type) => {
+
+    this.setState({alert: {msg: msg, type: type}}); 
+
+    setTimeout(() => this.setState({alert: null}), 4000); 
+
+  }
+
   /**
    * clearUsers is handling the functionality of the clear btn. When the clear button is clicked in the Search
    * component. It will call the props function and set the state to empty. 
@@ -58,13 +64,31 @@ class App extends React.Component {
   render() {
     const {users, loading} = this.state; 
     return (
+      <Router>
       <div className="App">
        <Navbar title = 'Github Finder' icon = 'fab fa-github'/> 
        <div className = 'container'>  
-        <Search searchUsers = {this.searchUsers} clearUsers = {this.clearUsers} showClear = {users.length > 0 ? true : false}></Search>
-        <Users loading = {loading} users = {users}></Users>
+        <Alert alert = {this.state.alert} />
+        <Switch>
+          <Route exact path='/'render = {props => (
+            <Fragment>
+              <Search 
+                
+                searchUsers = {this.searchUsers} 
+                clearUsers = {this.clearUsers} 
+                showClear = {users.length > 0 ? true : false} 
+                setAlert = {this.setAlert}>
+
+              </Search>
+              <Users loading = {loading} users = {users}></Users>
+            </Fragment>
+          )}
+          />
+          <Route exact path='/about' component = {About}/>
+        </Switch>
        </div>
       </div>
+      </Router>
     );
   }
   
