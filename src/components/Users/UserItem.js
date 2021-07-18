@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 const UserItem = (props) =>  {
 
-  const {login, avatar_url, html_url} = props.user; // destructuring pull stuff from the state object
+  const {login, avatar_url} = props.user; // destructuring pull stuff from the state object
   //Note that when using classes we need the 'this' keyword
     
     return (
@@ -12,7 +12,7 @@ const UserItem = (props) =>  {
         <h3>{login}</h3>
 
         <div>
-          <a href = {html_url} className = "btn btn-dark btn-sm my-1">More</a>
+          <Link to = {`/user/${login}`} className = "btn btn-dark btn-sm my-1">More</Link>
         </div>
       </div>
 
