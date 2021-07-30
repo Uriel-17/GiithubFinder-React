@@ -19,7 +19,7 @@ const Navbar = (props) => {
           </li>
         </ul>
       </nav>
-    );
+    ); 
 }
 
 Navbar.defaultProps = {
